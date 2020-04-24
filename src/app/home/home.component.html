@@ -1,0 +1,53 @@
+<h1 class="header">Burger App</h1>
+<div>
+  <div class="searchAndFilter">
+    <input
+      id="search"
+      type="text"
+      placeholder="Type to search"
+      (input)="searchBurger($event)"
+    />
+    <select id="filter" (change)="valueSelected($event)">
+      <option *ngFor="let item of criteria">{{ item }}</option>
+    </select>
+  </div>
+
+  <div *ngIf="burgers" class="container">
+    <div class="row" *ngFor="let burger of burgers">
+      <div class="column">
+        <div class="card">
+          <h3>{{ burger.name }}</h3>
+          <p>Price : {{ burger.price }} Rs</p>
+          <img src="../../assets/burger_image.jpg" width="200px" />
+          <p *ngIf="burger.isVeg" style="color: green;">Veg</p>
+          <p *ngIf="!burger.isVeg" style="color: red;">Non-Veg</p>
+          <p>Rating {{ burger.rating }}</p>
+          <button (click)="addToCart(burger)">Add to cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" *ngIf="orderCart.length > 0">
+    <section class="Order-Summary">
+      <h1 class="header">Order Summary</h1>
+      <div *ngIf="orderCart.length === 0">
+        <h3 class="header">Nothing in the cart</h3>
+      </div>
+      <div *ngFor="let item of orderCart">
+        <p>
+          <img src="../../assets/burger_image.jpg" width="20px" /> &nbsp;{{
+            item.name
+          }}
+          &nbsp;&nbsp; <b>Price: </b>{{ item.price }}
+        </p>
+      </div>
+      <b>Total Cart value:</b> {{ totalCartValue }}
+      <button id="confirmBtn" (click)="confirmOrder()">
+        Confirm Your Order
+      </button>
+    </section>
+  </div>
+  <div #confirmation id="overlay" (click)="close()">
+    <div id="text">Your order will be delivered in 30 mins</div>
+  </div>
+</div>
